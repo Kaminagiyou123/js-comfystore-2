@@ -26,11 +26,45 @@ export const addToCart = (id) => {
     addToCartDOM(product);
   } else {
   }
+  //add one to the item count
+  displayCartItemCount();
+  // display cart totals
+  displayCartTotal();
+  // set cart in localstorage
+  setStorageItem("cart", cart);
   //more stuff comming up
   openCart();
 };
 
+function displayCartItemCount() {
+  const amount = cart.reduce((total, cartItem) => {
+    return (total += cartItem.amount);
+  }, 0);
+
+  cartItemCountDOM.textContent = amount;
+}
+
+function displayCartTotal() {
+  const amount = cart.reduce((total, cartItem) => {
+    return (total += cartItem.amount * cartItem.price);
+  }, 0);
+
+  cartTotalDOM.textContent = `Total: ${formatPrice(amount)}`;
+}
+
+function displayCartItemsDOM() {
+  cart.forEach((cartItem) => {
+    addToCartDOM(cartItem);
+  });
+}
+
+function setupCartFunctionality() {}
+
 const init = () => {
-  console.log(cart);
+  displayCartItemCount();
+  displayCartTotal();
+  displayCartItemsDOM();
+
+  setupCartFunctionality();
 };
 init();
